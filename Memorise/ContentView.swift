@@ -8,9 +8,9 @@
 import SwiftUI //任何和 UI 有关的都需要导入 SwiftUI
 
 struct ContentView: View {  //所有的东西都在 struct 里面
-    var body: some View {
+    var body: some View {  //var 表示变量
         HStack {
-            CardView(isFaceup: true)
+            CardView(isFaceup: false)
             CardView(isFaceup: true)
             CardView(isFaceup: false)
             CardView(isFaceup: true)
@@ -19,25 +19,22 @@ struct ContentView: View {  //所有的东西都在 struct 里面
         .padding()
     }
 }
-
 struct CardView: View {
-    var isFaceup: Bool = false
-    
+    @State var isFaceup: Bool = true //@State 暂时改变，
     var body: some View{
-        ZStack(content: {
+        ZStack {
+            let base = RoundedRectangle(cornerRadius: 12) // let 表示常量
             if isFaceup {
-                RoundedRectangle(cornerRadius: 12)
-                    .foregroundColor(.white)
-                RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(lineWidth: 2)
+                base.foregroundColor(.white)
+                base.strokeBorder(lineWidth: 2)
                 Text("🤖").font(.largeTitle)  //properties
             } else{
-                RoundedRectangle(cornerRadius: 12)
-                    .foregroundColor(.orange)
+                base.fill()
                 
             }
-        })
-
+        }.onTapGesture {
+            isFaceup.toggle() //bool运算函数，使得变量在 true 和 false 质检转换
+        }
     }
 }
 
