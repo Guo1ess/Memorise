@@ -8,18 +8,20 @@
 import SwiftUI //任何和 UI 有关的都需要导入 SwiftUI
 
 struct ContentView: View {  //所有的东西都在 struct 里面
-    var body: some View {  //var 表示变量
+    let emojis: Array<String> = ["👻","🤡","🐵","🐙","🧙"]
+
+    var body: some View {  //var 表示变量 在 view builder 中只能使用条件判断、列表和局部变量
         HStack {
-            CardView(isFaceup: false)
-            CardView(isFaceup: true)
-            CardView(isFaceup: false)
-            CardView(isFaceup: true)
+            ForEach(emojis.indices, id: \.self){ index in
+                CardView(content: emojis[index])
+            } //0..<4 不包括 4，共有 4 个数； 0...4 包括 4，共有 5 个元素
         }
         .foregroundColor(.red)
         .padding()
     }
 }
 struct CardView: View {
+    let content: String //需要变换 emoji 内容
     @State var isFaceup: Bool = true //@State 暂时改变，
     var body: some View{
         ZStack {
@@ -27,7 +29,7 @@ struct CardView: View {
             if isFaceup {
                 base.foregroundColor(.white)
                 base.strokeBorder(lineWidth: 2)
-                Text("🤖").font(.largeTitle)  //properties
+                Text(content).font(.largeTitle)  //properties
             } else{
                 base.fill()
                 
